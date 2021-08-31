@@ -1,0 +1,18 @@
+require:
+  - rubocop-rspec
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*.rb'
+
+AllCops:
+  NewCops: enable
+
+RSpec/NestedGroups:
+  Max: 5
+
+RSpec/NamedSubject:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
