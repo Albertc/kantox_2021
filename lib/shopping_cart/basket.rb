@@ -8,14 +8,12 @@ module ShoppingCart
     def initialize(pricing_rules = [])
       @pricing_rules = pricing_rules
       @items = []
-
-      raise InvalidParameterError unless valid_pricing_rules_parameters?
+      check_pricing_rules!
     end
 
     # Add a new product to the basket ans increase its quantity
     def scan(product)
-      raise InvalidParameterError unless valid_product_parameter?(product)
-
+      check_product!(product)
       add_product_to_basket(product)
     end
 
@@ -39,11 +37,15 @@ module ShoppingCart
     def price_for(item)
       pricing_rule = pricing_rule_for_item(item)
       pricing_calculation_class = pricing_calculation_class_for(pricing_rule)
-      item_price = item.product.price
+      product_price = item.product.price
 
-      pricing_calculation_class
-        .new(item_price, pricing_rule&.arguments)
-        .total(item.quantity)
+      item_price = pricing_calculation_class
+                     .new(product_price, pricing_rule&.arguments)
+                     .total(item.quantity)
+
+      check_price!(item_price)
+
+      item_price
     end
 
     def pricing_calculation_class_for(pricing_rule)
@@ -54,15 +56,16 @@ module ShoppingCart
       pricing_rules.find { |promo| promo.arguments[:product] == item.product }
     end
 
-    def valid_pricing_rules_parameters?
-      return false unless pricing_rules.is_a?(Array)
-      return true if pricing_rules.empty?
-
-      pricing_rules.all? { |promo| promo.is_a?(ShoppingCart::PricingRule) }
+    def check_pricing_rules!
+      Validations::PricingRules.check!(pricing_rules)
     end
 
-    def valid_product_parameter?(product)
-      product.is_a?(Product)
+    def check_product!(product)
+      Validations::Products.check!(product)
+    end
+
+    def check_price!(item_price)
+      Validations::Results.check!(item_price)
     end
   end
 end

@@ -24,13 +24,6 @@ RSpec.describe ShoppingCart::Basket do
                                   price: 4.5)
   end
 
-  shared_examples 'raising an InvalidParameterError' do
-    it 'raises an InvalidParameterError' do
-      expect { subject }.to raise_error(
-        ShoppingCart::Basket::InvalidParameterError
-      )
-    end
-  end
 
   describe '#initialize' do
     shared_examples 'initializing_a_basket' do
@@ -41,6 +34,14 @@ RSpec.describe ShoppingCart::Basket do
 
       it 'initialize the items array attribute' do
         expect(subject.instance_variable_get('@items')).to eq([])
+      end
+    end
+
+    shared_examples 'raising an invalid pricing rule error' do
+      it 'raises an InvalidPricingRuleError' do
+        expect { subject }.to raise_error(
+          ShoppingCart::Basket::Validations::InvalidPricingRuleError
+        )
       end
     end
 
@@ -58,7 +59,7 @@ RSpec.describe ShoppingCart::Basket do
       context 'when the paramater is not an Array' do
         let(:pricing_rules) { 'not_an_array' }
 
-        it_behaves_like 'raising an InvalidParameterError'
+        it_behaves_like 'raising an invalid pricing rule error'
       end
 
       context 'when the paramater is an Array' do
@@ -74,7 +75,7 @@ RSpec.describe ShoppingCart::Basket do
         let(:pricing_rules) { [tea_pricing_rule, 'not_a_pricing_rule'] }
         let(:expected_pricing_rules) { pricing_rules }
 
-        it_behaves_like 'raising an InvalidParameterError'
+        it_behaves_like 'raising an invalid pricing rule error'
       end
     end
   end
@@ -87,7 +88,11 @@ RSpec.describe ShoppingCart::Basket do
     context 'with an invalid product paramater' do
       let(:new_product) { 'not_a_product' }
 
-      it_behaves_like 'raising an InvalidParameterError'
+      it 'raises an InvalidProductError' do
+        expect { subject }.to raise_error(
+          ShoppingCart::Basket::Validations::InvalidProductError
+        )
+      end
     end
 
     context 'with a valid product paramater' do
