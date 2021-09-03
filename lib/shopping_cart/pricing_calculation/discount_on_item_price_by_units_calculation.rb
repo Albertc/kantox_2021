@@ -14,7 +14,7 @@ module ShoppingCart
       private
 
       def discount
-        (self.price * self.arguments[:percent_discount] / 100)
+        (self.price * parse_decimals(self.arguments[:percent_discount]) / 100)
       end
 
       def units_of_the_rule

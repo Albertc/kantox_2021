@@ -13,8 +13,10 @@ RSpec.describe ShoppingCart::
       let(:quantity) { 2 }
 
       it 'returns the price of the product * quantity' do
-        expect(subject).to eq(22.46)
+        expect(subject.round(2)).to eq(22.46)
       end
+
+      it_behaves_like 'returning a BigDecimal number'
     end
 
     context 'when the quantity is equal than the units of the rule' do
@@ -22,8 +24,10 @@ RSpec.describe ShoppingCart::
 
       it 'returns the price of the product decremented by the discount '\
          '* quantity' do
-        expect(subject).to eq(22.461123)
+        expect(subject.round(2)).to eq(22.46)
       end
+
+      it_behaves_like 'returning a BigDecimal number'
     end
 
     context 'when the quantity is grather than the units of the rule' do
@@ -31,8 +35,10 @@ RSpec.describe ShoppingCart::
 
       it 'returns the price of the product decremented by the discount '\
          '* quantity' do
-        expect(subject).to eq(29.948164)
+        expect(subject.round(2)).to eq(29.95)
       end
+
+      it_behaves_like 'returning a BigDecimal number'
     end
   end
 end

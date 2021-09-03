@@ -13,6 +13,8 @@ RSpec.describe ShoppingCart::PricingCalculation::NewPriceByUnitsCalculation do
       it 'returns the price of the product * quantity' do
         expect(subject).to eq(22.46)
       end
+
+      it_behaves_like 'returning a BigDecimal number'
     end
 
     context 'when the quantity is equal than the units of the rule' do
@@ -21,6 +23,8 @@ RSpec.describe ShoppingCart::PricingCalculation::NewPriceByUnitsCalculation do
       it 'returns the price of the rule * quantity' do
         expect(subject).to eq(30)
       end
+
+      it_behaves_like 'returning a BigDecimal number'
     end
 
     context 'when the quantity is grather than the units of the rule' do
@@ -29,6 +33,8 @@ RSpec.describe ShoppingCart::PricingCalculation::NewPriceByUnitsCalculation do
       it 'returns the price of the rule * quantity' do
         expect(subject).to eq(40)
       end
+
+      it_behaves_like 'returning a BigDecimal number'
     end
   end
 end

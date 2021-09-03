@@ -20,7 +20,7 @@ module ShoppingCart
     end
 
     def total
-      sum_items_amounts(items)
+      sum_items_amounts(items).round(2).to_f
     end
 
     private

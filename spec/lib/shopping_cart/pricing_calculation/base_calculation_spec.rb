@@ -26,5 +26,7 @@ RSpec.describe ShoppingCart::PricingCalculation::BaseCalculation do
     it 'returns the quantity * price of the product' do
       is_expected.to eq(21.77)
     end
+
+    it_behaves_like 'returning a BigDecimal number'
   end
 end

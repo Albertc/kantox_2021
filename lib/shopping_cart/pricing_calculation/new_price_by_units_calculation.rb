@@ -14,7 +14,7 @@ module ShoppingCart
       private
 
       def new_price
-        self.arguments[:price]
+        parse_decimals(self.arguments[:price])
       end
 
       def units_of_the_rule

@@ -11,6 +11,8 @@ RSpec.describe ShoppingCart::PricingCalculation::PayFewerUnitsCalculation do
       let(:quantity) { 2 }
 
       it { is_expected.to eq(10) }
+
+      it_behaves_like 'returning a BigDecimal number'
     end
 
     context 'when units_to_get are more than units_to_pay + 1' do
@@ -18,6 +20,8 @@ RSpec.describe ShoppingCart::PricingCalculation::PayFewerUnitsCalculation do
       let(:quantity) { 5 }
 
       it { is_expected.to eq(15) }
+
+      it_behaves_like 'returning a BigDecimal number'
 
       context 'when quantity is not multiple of units_to_get' do
         let(:quantity) { 6 }
@@ -36,7 +40,7 @@ RSpec.describe ShoppingCart::PricingCalculation::PayFewerUnitsCalculation do
       let(:arguments) { { units_to_get: 2, units_to_pay: 1 } }
 
       context 'when quantity is 1' do
-        let(:quantity) { 2 }
+        let(:quantity) { 1 }
 
         it { is_expected.to eq(5) }
       end

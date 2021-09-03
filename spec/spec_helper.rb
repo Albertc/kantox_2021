@@ -2,6 +2,7 @@
 
 Dir["app/**/*.rb"].each { |file| require_relative "../#{file}" }
 Dir["lib/**/*.rb"].each { |file| require_relative "../#{file}" }
+Dir["spec/support/**/*.rb"].each { |file| require_relative "../#{file}" }
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
